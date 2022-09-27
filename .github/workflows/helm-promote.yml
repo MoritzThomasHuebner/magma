@@ -22,18 +22,20 @@ jobs:
         id: checkUserMember
         with:
           username: ${{ github.actor }}
-          team: 'approvers-ci'
+          team: 'approvers-feg'
           GITHUB_TOKEN: ${{ secrets.github_token }}
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         run: |
           echo "User is not a member of the team"
-          exit 1
-      - run: |
-          wget https://github.com/magma/magma/raw/master/orc8r/tools/helm/promote.sh
-          chmod 755 promote.sh
-          # Promote Helm charts
-          ./promote.sh orc8r-${MAGMA_VERSION}.tgz
-          ./promote.sh cwf-orc8r-${MAGMA_VERSION}.tgz
-          ./promote.sh feg-orc8r-${MAGMA_VERSION}.tgz
-          ./promote.sh lte-orc8r-${MAGMA_VERSION}.tgz
-          ./promote.sh domain-proxy-${MAGMA_VERSION}.tgz
+      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
+        run: |
+          echo "User is a member of the team"
+#      - run: |
+#          wget https://github.com/magma/magma/raw/master/orc8r/tools/helm/promote.sh
+#          chmod 755 promote.sh
+#          # Promote Helm charts
+#          ./promote.sh orc8r-${MAGMA_VERSION}.tgz
+#          ./promote.sh cwf-orc8r-${MAGMA_VERSION}.tgz
+#          ./promote.sh feg-orc8r-${MAGMA_VERSION}.tgz
+#          ./promote.sh lte-orc8r-${MAGMA_VERSION}.tgz
+#          ./promote.sh domain-proxy-${MAGMA_VERSION}.tgz
