@@ -21,6 +21,7 @@ on:
       - master
       - 'v1.*'
     types: [ opened, reopened, synchronize ]
+  workflow_dispatch: null
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
